@@ -204,3 +204,21 @@ function initContactForm() {
     }, 800);
   });
 }
+
+/* -------------------------------------------------------------------------
+   7. AUTOMATIC ASSET PATH FALLBACK
+   ------------------------------------------------------------------------- */
+document.querySelectorAll('img').forEach(img => {
+  img.addEventListener('error', function() {
+    if (!this.dataset.retried) {
+      this.dataset.retried = '1';
+      const filename = this.src.split('/').pop().split('?')[0];
+      if (this.src.includes('assets/images/')) {
+        this.src = filename;
+      } else {
+        this.src = 'assets/images/' + filename;
+      }
+    }
+  });
+});
+
